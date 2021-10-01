@@ -1,8 +1,0 @@
-location /pro {
-  proxy_pass <%= ENV["URL_ESPACE_PRO"] %>;
-  proxy_redirect https://$proxy_host https://$host;
-}
-
-location / {
-  proxy_pass <%= ENV["URL_SITE_VITRINE"] %>;
-}
