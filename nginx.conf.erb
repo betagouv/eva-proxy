@@ -6,3 +6,7 @@ location /pro {
 location / {
   proxy_pass <%= ENV["URL_SITE_VITRINE"] %>;
 }
+
+location /competences {
+  proxy_pass <%= ENV["URL_SITE_VITRINE"] %>;
+}
