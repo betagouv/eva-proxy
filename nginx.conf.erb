@@ -1,7 +1,7 @@
 location /pro {
   proxy_pass <%= ENV["URL_ESPACE_PRO"] %>;
   proxy_redirect https://$proxy_host https://$host;
-  proxy_set_header Host $host;
+  proxy_set_header X-Forwarded-Host $host;
 }
 
 location /competences {
@@ -10,4 +10,5 @@ location /competences {
 
 location / {
   proxy_pass <%= ENV["URL_SITE_VITRINE"] %>;
+  proxy_set_header X-Forwarded-Host $host;
 }
