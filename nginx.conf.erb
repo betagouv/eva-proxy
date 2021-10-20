@@ -4,6 +4,12 @@ location /pro {
   proxy_set_header X-Forwarded-Host $host;
 }
 
+location /jeu {
+  proxy_pass <%= ENV["URL_ESPACE_JEU"] %>;
+  proxy_redirect https://$proxy_host https://$host;
+  proxy_set_header X-Forwarded-Host $host;
+}
+
 location / {
   proxy_pass <%= ENV["URL_SITE_VITRINE"] %>;
   proxy_set_header X-Forwarded-Host $host;
