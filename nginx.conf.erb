@@ -4,10 +4,6 @@ location /pro {
   proxy_set_header X-Forwarded-Host $host;
 }
 
-location /competences {
-  rewrite ^/competences/(.*)$ https://$host/$1 redirect;
-}
-
 location / {
   proxy_pass <%= ENV["URL_SITE_VITRINE"] %>;
   proxy_set_header X-Forwarded-Host $host;
