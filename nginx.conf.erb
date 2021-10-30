@@ -15,6 +15,9 @@ location /competences {
 }
 
 location / {
+  proxy_set_header X-Forwarded-Host $host:$server_port;
+  proxy_set_header X-Forwarded-Server $host;
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
   proxy_pass <%= ENV["URL_SITE_VITRINE"] %>;
-  proxy_set_header X-Forwarded-Host $host;
+  proxy_redirect https://$proxy_host https://$host;
 }
