@@ -14,6 +14,12 @@ location /competences {
   rewrite ^/competences/(.*)$ https://$host/$1 redirect;
 }
 
+location /xmlrpc.php {
+  deny all;
+  access_log off;
+  log_not_found off;
+}
+
 location / {
   proxy_set_header X-Forwarded-Host $host:$server_port;
   proxy_set_header X-Forwarded-Server $host;
