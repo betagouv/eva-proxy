@@ -1,0 +1,46 @@
+proxy_cache_path /tmp/nginx-cache levels=1:2 keys_zone=STATIC:10m inactive=24h max_size=1g;
+
+server {
+  server_name localhost;
+  listen <%= ENV['PORT'] %>;
+  charset utf-8;
+
+  location /pro {
+    proxy_pass <%= ENV["URL_ESPACE_PRO"] %>;
+    proxy_redirect https://$proxy_host https://$host;
+    proxy_set_header X-Forwarded-Host $host;
+  }
+
+  location /jeu {
+    proxy_pass <%= ENV["URL_ESPACE_JEU"] %>;
+    proxy_redirect https://$proxy_host https://$host;
+    proxy_set_header X-Forwarded-Host $host;
+  }
+
+  location /competences {
+    rewrite ^/competences/(.*)$ https://$host/$1 redirect;
+  }
+
+  location /xmlrpc.php {
+    deny all;
+    access_log off;
+    log_not_found off;
+  }
+
+  location / {
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header X-Forwarded-Port  $server_port;
+
+    proxy_buffering        on;
+    proxy_cache            STATIC;
+    proxy_cache_valid      200  1d;
+    proxy_cache_use_stale  error timeout invalid_header updating http_500 http_502 http_503 http_504;
+
+    proxy_pass <%= ENV["URL_SITE_VITRINE"] %>;
+    proxy_redirect https://$proxy_host https://$host;
+  }
+}
